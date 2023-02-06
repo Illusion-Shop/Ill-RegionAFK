@@ -1,0 +1,11 @@
+name: Ill-Template #TODO
+main: net.illusion.template.TemplatePlugin #TODO
+author: Illusion
+description: 템플릿 플러그인
+website: https://discord.gg/illusion-shop
+
+version: 1.0
+api-version: 1.13
+
+commands:
+
