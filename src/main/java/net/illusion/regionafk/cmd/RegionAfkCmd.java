@@ -4,6 +4,7 @@ import com.sk89q.worldedit.IncompleteRegionException;
 import net.illusion.core.util.text.StringUtil;
 import net.illusion.regionafk.RegionAfkPlugin;
 import net.illusion.regionafk.data.AfkArea;
+import net.illusion.regionafk.data.AfkShop;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -19,15 +20,67 @@ public class RegionAfkCmd implements CommandExecutor {
         }
 
         Player player = (Player) sender;
+
+        String name;
+
+        AfkShop afkShop;
+
         switch (args[0]) {
             case "상점":
-                
+                switch (args[1]) {
+                    case "생성":
+                        name = StringUtil.join(" ", args, 2);
+
+                        afkShop = new AfkShop(name);
+                        afkShop.create(player);
+
+                        break;
+                    case "제거":
+                        name = StringUtil.join(" ", args, 2);
+
+                        afkShop = new AfkShop(name);
+                        afkShop.delete(player);
+                        break;
+                    case "편집":
+                        name = StringUtil.join(" ", args, 2);
+                        afkShop = new AfkShop(name);
+
+                        afkShop.edit(player);
+                        break;
+                    case "줄":
+                        byte line = Byte.parseByte(args[2]);
+
+                        name = StringUtil.join(" ", args, 3);
+                        afkShop = new AfkShop(name);
+
+                        afkShop.setLine(line);
+
+                        break;
+                    case "제목":
+                        name = StringUtil.join(" ", args, 2);
+
+                        String newName = StringUtil.join(" ", args, name.length());
+                        afkShop = new AfkShop(name);
+
+                        afkShop.rename(newName);
+                        break;
+                    case "목록":
+
+                        break;
+
+                    case "리로드":
+
+                        break;
+
+                }
+
                 break;
+
             case "포인트":
 
                 break;
             case "구역":
-                String name;
+
                 AfkArea afkArea;
 
                 switch (args[1]) {
@@ -59,7 +112,7 @@ public class RegionAfkCmd implements CommandExecutor {
 
                     case "편집":
                         name = StringUtil.join(" ", args, 2);
-                        
+
                         break;
 
                 }
