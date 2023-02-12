@@ -7,6 +7,8 @@ version '1.0'
 
 repositories {
     mavenCentral()
+    maven { url "https://maven.enginehub.org/repo/" }
+
     maven { url = uri("https://hub.spigotmc.org/nexus/content/repositories/snapshots/") }
     maven {
         url = "http://localhost:8081/repository/maven-public/"
@@ -22,13 +24,18 @@ dependencies {
 
     // BUKKIT LIBRARY
     compileOnly("org.spigotmc:spigot-api:1.19.2-R0.1-SNAPSHOT")
+    compileOnly 'com.sk89q.worldedit:worldedit-bukkit:7.2.13'
 
     // OTHERS
-    compileOnly "net.illusion:core:1.0"
+    compileOnly "net.illusion:core:1.0.4"
 }
 
 compileJava.options.encoding = 'UTF-8'
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
+}
+
+jar {
+    destinationDirectory.set(file('D:\\Project\\minecraft\\Commission\\Illusion\\Servers\\1.19.2\\plugins'))
 }
