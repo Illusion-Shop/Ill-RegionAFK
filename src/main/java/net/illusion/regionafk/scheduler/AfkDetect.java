@@ -38,6 +38,5 @@ public class AfkDetect extends BukkitRunnable {
             AfkMapData.scheduler.remove(player.getUniqueId());
             cancel();
         }
-
     }
 }

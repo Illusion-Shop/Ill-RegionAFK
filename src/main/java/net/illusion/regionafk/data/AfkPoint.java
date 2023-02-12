@@ -20,6 +20,21 @@ public class AfkPoint {
         config.setLong("point", amount);
     }
 
+    public boolean deposit(long amount){
+        if(getPoint() - amount > 0){
+            config.setLong("point", getPoint() - amount);
+            return true;
+        }
+        return false;
+    }
+    public boolean withdraw(long amount){
+        if(getPoint() - amount > 0){
+            config.setLong("point", getPoint() - amount);
+            return true;
+        }
+        return false;
+    }
+
     public long getPoint() {
         return config.getLong("point");
     }
