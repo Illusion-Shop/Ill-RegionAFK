@@ -3,7 +3,9 @@ package net.illusion.regionafk;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import net.illusion.core.data.Config;
 import net.illusion.regionafk.cmd.RegionAfkCmd;
+import net.illusion.regionafk.cmd.RegionAfkTab;
 import net.illusion.regionafk.data.AfkArea;
+import net.illusion.regionafk.event.AfkShopListener;
 import net.illusion.regionafk.event.RegionAfkListener;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -23,7 +25,7 @@ public class RegionAfkPlugin extends JavaPlugin {
 
     public static Config folder;
 
-    public static String prefix = "§f[§e!§f] ";
+    public static String prefix;
 
     @Override
     public void onEnable() {
@@ -41,7 +43,6 @@ public class RegionAfkPlugin extends JavaPlugin {
             Bukkit.getConsoleSender().sendMessage(ChatColor.RED + " WorldEdit 플러그인이 존재하지 않습니다. 일부 기능이 작동 하지 않을 수 있습니다.");
         }
 
-
         // CONFIG
         plugin = this;
 
@@ -49,6 +50,7 @@ public class RegionAfkPlugin extends JavaPlugin {
         config.setPlugin(this);
         config.loadDefualtConfig();
 
+        prefix = ChatColor.translateAlternateColorCodes('&', config.getString("prefix"));
 
         folder = new Config("area/");
         folder.setPlugin(RegionAfkPlugin.getPlugin());
@@ -56,10 +58,13 @@ public class RegionAfkPlugin extends JavaPlugin {
         // EVENT
         // TODO
         PluginManager pm = Bukkit.getPluginManager();
+
         pm.registerEvents(new RegionAfkListener(), this);
+        pm.registerEvents(new AfkShopListener(), this);
 
         // COMMAND
         getCommand("잠수").setExecutor(new RegionAfkCmd()); // TODO
+        getCommand("잠수").setTabCompleter(new RegionAfkTab()); // TODO
     }
 
     @Override

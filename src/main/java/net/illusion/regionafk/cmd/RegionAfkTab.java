@@ -25,6 +25,21 @@ public class RegionAfkTab implements TabCompleter {
                     return result;
                 }
                 result = List.of("포인트", "상점");
+            } else if (args.length == 2) {
+                if (player.isOp()) {
+                    switch (args[0]) {
+                        case "상점":
+                            result = List.of("생성", "제거", "편집", "줄", "제목", "목록", "리로드");
+                            break;
+                        case "구역":
+                            result = List.of("생성", "제거", "편집");
+                            break;
+                    }
+
+
+                    return result;
+                }
+                result = List.of("포인트", "상점");
             }
             return result;
         }

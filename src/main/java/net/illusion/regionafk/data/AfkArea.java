@@ -6,6 +6,7 @@ import net.illusion.core.data.Config;
 
 import net.illusion.core.util.time.Time;
 import net.illusion.regionafk.RegionAfkPlugin;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -45,14 +46,21 @@ public class AfkArea {
         config.getConfig().set("pos2", location2);
 
         config.getConfig().set("startTime", 5000); // 잠수 시작 시간은 기본 5초로 설정됨.
+        config.getConfig().set("stepTime", 5000); // 잠수 시작 시간은 기본 5초로 설정됨.
 
         config.getConfig().set("players", Collections.emptyList());
+
+        config.getConfig().set("point", 100);
+
+        config.getConfig().set("message.start", "{prefix} {name} &7구역에서 잠수가 시작됩니다.");
+        config.getConfig().set("message.cancel", "{prefix} {name} &7구역에서 잠수가 취소되었습니다.");
+        config.getConfig().set("message.get", "{prefix} {name} &7잠수 포인트 {point}를 얻었습니다.");
         config.saveConfig();
 
         player.sendMessage(RegionAfkPlugin.prefix + "§a성공적으로 §r" + name + " §a의 구역을 생성 하였습니다!");
     }
 
-    public void remove(Player player){
+    public void remove(Player player) {
         Config file = new Config("area/");
         file.setPlugin(RegionAfkPlugin.getPlugin());
 
@@ -118,9 +126,23 @@ public class AfkArea {
         return result;
     }
 
-    public Time getStartTime(){
+
+    public Time getStepTime() {
+        return new Time(config.getLong("stepTime"));
+    }
+
+    public Time getStartTime() {
         return new Time(config.getLong("startTime"));
     }
+
+    public String getStartMessage() {
+        String result = config.getString("message.start");
+
+        result = result.replaceAll("\\{prefix\\}", RegionAfkPlugin.config.getString("prefix"));
+        result = result.replaceAll("\\{name\\}", name);
+        return ChatColor.translateAlternateColorCodes('&', result);
+    }
+
     public String getName() {
         return name;
     }

@@ -28,14 +28,17 @@ public class AfkDetect extends BukkitRunnable {
         time.addSeconds(1);
 
         Region region = new Region(afkArea.getLocations().get(0), afkArea.getLocations().get(1));
+
         if (region.locationIsInRegion(player.getLocation())) {
             if (time.getMillSeconds() == afkArea.getStartTime().getMillSeconds()) {
-                AfkMapData.scheduler.put(player.getUniqueId(), this);
-                player.sendMessage("잠수가 시작됩니다.");
+                AfkMapData.schedulerMap.put(player.getUniqueId(), this);
+                player.sendMessage(afkArea.getStartMessage());
+            } else if (time.getMillSeconds() == afkArea.getStepTime().getMillSeconds()) {
+
             }
         } else {
             afkArea.removePlayer(player);
-            AfkMapData.scheduler.remove(player.getUniqueId());
+            AfkMapData.schedulerMap.remove(player.getUniqueId());
             cancel();
         }
     }

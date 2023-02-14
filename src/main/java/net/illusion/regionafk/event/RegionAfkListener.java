@@ -21,7 +21,7 @@ public class RegionAfkListener implements Listener {
     public void onMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();
 
-        if (AfkMapData.scheduler.containsKey(player.getUniqueId())) {
+        if (AfkMapData.schedulerMap.containsKey(player.getUniqueId())) {
             AfkDetectEvent afkDetectEvent = new AfkDetectEvent(player);
             Bukkit.getPluginManager().callEvent(afkDetectEvent);
             return;
@@ -50,8 +50,8 @@ public class RegionAfkListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onOpen(InventoryOpenEvent event) {
         if (event.getPlayer() instanceof Player player) {
-            System.out.println(AfkMapData.scheduler.containsKey(player.getUniqueId()));
-            if (AfkMapData.scheduler.containsKey(player.getUniqueId())) {
+            System.out.println(AfkMapData.schedulerMap.containsKey(player.getUniqueId()));
+            if (AfkMapData.schedulerMap.containsKey(player.getUniqueId())) {
 
                 AfkDetectEvent afkDetectEvent = new AfkDetectEvent(player);
                 Bukkit.getPluginManager().callEvent(afkDetectEvent);
@@ -63,7 +63,7 @@ public class RegionAfkListener implements Listener {
     public void onQuit(PlayerQuitEvent event) {
 
         Player player = event.getPlayer();
-        if (AfkMapData.scheduler.containsKey(player.getUniqueId())) {
+        if (AfkMapData.schedulerMap.containsKey(player.getUniqueId())) {
 
             AfkDetectEvent afkDetectEvent = new AfkDetectEvent(player);
             Bukkit.getPluginManager().callEvent(afkDetectEvent);
@@ -73,7 +73,7 @@ public class RegionAfkListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
-        if (AfkMapData.scheduler.containsKey(player.getUniqueId())) {
+        if (AfkMapData.schedulerMap.containsKey(player.getUniqueId())) {
 
             AfkDetectEvent afkDetectEvent = new AfkDetectEvent(player);
             Bukkit.getPluginManager().callEvent(afkDetectEvent);
@@ -83,7 +83,7 @@ public class RegionAfkListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onInteractAtEntity(PlayerInteractAtEntityEvent event) {
         Player player = event.getPlayer();
-        if (AfkMapData.scheduler.containsKey(player.getUniqueId())) {
+        if (AfkMapData.schedulerMap.containsKey(player.getUniqueId())) {
 
             AfkDetectEvent afkDetectEvent = new AfkDetectEvent(player);
             Bukkit.getPluginManager().callEvent(afkDetectEvent);
@@ -93,7 +93,7 @@ public class RegionAfkListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void interactEntity(PlayerInteractEntityEvent event) {
         Player player = event.getPlayer();
-        if (AfkMapData.scheduler.containsKey(player.getUniqueId())) {
+        if (AfkMapData.schedulerMap.containsKey(player.getUniqueId())) {
 
             AfkDetectEvent afkDetectEvent = new AfkDetectEvent(player);
             Bukkit.getPluginManager().callEvent(afkDetectEvent);
@@ -103,7 +103,7 @@ public class RegionAfkListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onChat(AsyncPlayerChatEvent event){
         Player player = event.getPlayer();
-        if (AfkMapData.scheduler.containsKey(player.getUniqueId())) {
+        if (AfkMapData.schedulerMap.containsKey(player.getUniqueId())) {
             AfkDetectEvent afkDetectEvent = new AfkDetectEvent(player);
             Bukkit.getPluginManager().callEvent(afkDetectEvent);
         }
@@ -112,7 +112,16 @@ public class RegionAfkListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onTeleport(PlayerTeleportEvent event){
         Player player = event.getPlayer();
-        if (AfkMapData.scheduler.containsKey(player.getUniqueId())) {
+        if (AfkMapData.schedulerMap.containsKey(player.getUniqueId())) {
+            AfkDetectEvent afkDetectEvent = new AfkDetectEvent(player);
+            Bukkit.getPluginManager().callEvent(afkDetectEvent);
+        }
+    }
+    @EventHandler
+    public void onCommand(PlayerCommandPreprocessEvent event){
+        Player player = event.getPlayer();
+
+        if (AfkMapData.schedulerMap.containsKey(player.getUniqueId())) {
             AfkDetectEvent afkDetectEvent = new AfkDetectEvent(player);
             Bukkit.getPluginManager().callEvent(afkDetectEvent);
         }
@@ -122,12 +131,12 @@ public class RegionAfkListener implements Listener {
     public void afkDetectEvent(AfkDetectEvent event){
         Player player = event.getPlayer();
 
-        AfkDetect afkDetect = AfkMapData.scheduler.get(player.getUniqueId());
+        AfkDetect afkDetect = AfkMapData.schedulerMap.get(player.getUniqueId());
 
         afkDetect.cancel();
         afkDetect.getAfkArea().removePlayer(player);
 
         player.sendMessage("잠수가 끝남");
-        AfkMapData.scheduler.remove(player.getUniqueId());
+        AfkMapData.schedulerMap.remove(player.getUniqueId());
     }
 }

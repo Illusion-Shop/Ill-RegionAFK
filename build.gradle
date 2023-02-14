@@ -27,7 +27,7 @@ dependencies {
     compileOnly 'com.sk89q.worldedit:worldedit-bukkit:7.2.13'
 
     // OTHERS
-    compileOnly "net.illusion:core:1.0.4"
+    compileOnly "net.illusion:core:1.0.6"
 }
 
 compileJava.options.encoding = 'UTF-8'
